@@ -1,29 +1,49 @@
 <?php
-
 session_start();
 header('location:login.php');
-$con = mysqli_connect('localhost','vipul','vipul');
+$host = 'localhost';
+$dbase = 'recipe_db';
+$user = 'vipul';
+$pd = 'vipul';
 
-if($con){
-	echo "connection successful";
-}else{
-	echo"no connection";
+try{
+    $db = new PDO('mysql:host='.$host.';dbname='.$dbase, $user, $pd);
+	$db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+	$name = $_POST['user'];
+	$pass = $_POST['password'];
+	$email = $_POST['email'];
+	$stmt = $db->prepare("insert into signin(user,password,email)values ('$name','$pass','$email')");
+	$stmt->execute();
+}catch(Exception $e){
+    echo 'Unable to Connect';
+    echo $e->getMessage();
+    exit;
+    
 }
 
-mysqli_select_db($con,'recipe_db');
+try{
+	$query = 'select * from signin where user = ':name' && password =':pass' && email = ':email' ';    
+	$statement = $db->prepare($query);
+	$statement->bindParam(':name',$name);
+	$statement->bindParam(':pass',$pass);
+	$statement->bindParam(':email');
+	$statement->execute();
+	$comments = $statement->fetchAll(PDO::FETCH_ASSOC);
+}catch(Exception $e){
+	echo "Could not retrieve comments. ".$e->getMessage();
+	exit;
+}
 
-$name = $_POST['user'];
-$pass = $_POST['password'];
-$email = $_POST['email'];
 
-$q = "select * from signin where name = '$name' && password ='pass' && email = 'email' ";
-$result = mysqli_query($con , $q);
 
-$num = mysqli_num_rows($result);
+$stmt = $db->prepare("select * from signin where user = '$name' && password ='$pass' && email = '$email' ");
+$stmt->execute();
+$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+$num = mysqli_num_rows($stmt->fetchAll(result));
 if($num == 1){
 	echo "duplicate data";
 }else{
-	$qy = "insert into signin(name,password,email)values ('$name','$pass','$email')";
-	mysqli_query($con,$qy);
+	$qy = "insert into signin(user,password,email)values ('$name','$pass','$email')";
+	mysqli_query($db,$qy);
 }
 ?>
