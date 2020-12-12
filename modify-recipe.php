@@ -123,4 +123,3 @@ if(isset($_GET['id']) && is_id_valid($db, $_GET['id'])){
     require 'inc/select_recipe_to_modify.php';
     } 
 ?>
-<?php require 'inc/footer.php'; ?>

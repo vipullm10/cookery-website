@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"]  == "POST"){
         <?php
             $i=1;
             foreach($searchRecipes as $item){
-                echo $i.") <a href='http://my-php-recipes/recipe.php?id=".$item['recipe_id']."'>".$item['title']."</a>";
+                echo $i.") <a href='/recipe.php?id=".$item['recipe_id']."'>".$item['title']."</a>";
                 echo "<br>";
                 $i++;
             }
@@ -68,4 +68,3 @@ if ($_SERVER["REQUEST_METHOD"]  == "POST"){
 </div>
 <?php } ?>
 
-<?php require 'inc/footer.php'; ?>

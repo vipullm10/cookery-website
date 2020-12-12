@@ -13,7 +13,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $cooked_on = trim(filter_input(INPUT_POST,'cooked_on',FILTER_SANITIZE_STRING));
         $img_src = trim(filter_input(INPUT_POST,'img_src',FILTER_SANITIZE_STRING));
         $url = trim(filter_input(INPUT_POST,'url',FILTER_SANITIZE_STRING));
-
+        $youtubeLink = trim(filter_input(INPUT_POST,'youtubeLink',FILTER_SANITIZE_STRING));
         //Add images folder to filename submitted for image
         //Empty fields become "NULL"
         if($img_src != ""){
@@ -27,7 +27,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $title=ucwords($title);
             $subtitle = ucwords($subtitle);
             //Add Recipe to the database
-            if(add_recipe($db, $title, $subtitle, $cooked_on, $img_src, $url)){
+            if(add_recipe($db, $title, $subtitle, $cooked_on, $img_src, $url,$youtubeLink)){
             }
         }else{
             //Display error_message after form submit for empty fields

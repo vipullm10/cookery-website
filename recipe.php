@@ -31,5 +31,3 @@ else{
     require 'inc/select_recipe_to_view.php';
 } 
 ?>
-
-<?php require 'inc/footer.php'; ?>

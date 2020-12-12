@@ -1,8 +1,8 @@
 <?php
 $host = 'localhost';
-$dbase = 'my_apron';
-$user = 'chandan';
-$pd = 'chandan';
+$dbase = 'recipe_db';
+$user = 'vipul';
+$pd = 'vipul';
 
 try{
     $db = new PDO('mysql:host='.$host.';dbname='.$dbase, $user, $pd);

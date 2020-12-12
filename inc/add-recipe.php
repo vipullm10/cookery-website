@@ -18,7 +18,7 @@
         <div class="form-group">
             <label class="control-label col-sm-2" for="cooked_on">Date Cooked (MM/DD/YYYY)</label>
             <div class="col-sm-2">
-                <input type="text" class="form-control" pattern="(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](20)(1[6-7])" title="After 01/01/2016. Before 2018" name="cooked_on" id="cooked_on" />
+                <input type="text" class="form-control"  name="cooked_on" id="cooked_on" />
             </div>
         </div>
         <br>
@@ -31,9 +31,15 @@
         </div>
         <br>
         <div class="form-group">
-            <label class="control-label col-sm-2" for="url">Blue Apron Website Link</label>
+            <label class="control-label col-sm-2" for="url">Procedure</label>
             <div class="col-sm-6">
-                <input type="url" pattern="https?://www.blueapron.com.+" class="form-control" name="url" id="url" value="https://www.blueapron.com/recipes/" title="Leave empty or begin with 'https://www.blueapron.com' . Thanks!"/>
+                <input type="text" class="form-control" name="url" id="url"  title="Describe the procedure"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="youtubeLink">Add a youtube link</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="youtubeLink" id="youtubeLink"  title="Enter a link to a video"/>
             </div>
         </div>
         <br>
@@ -45,6 +51,3 @@
         </div>
     </form>
 </div>
-<?php
-require 'inc/footer.php';    
-?>

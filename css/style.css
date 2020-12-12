@@ -72,3 +72,36 @@ footer {
     color: grey;
 }
 
+.mt-4{
+    margin-top: 4rem;
+}
+
+.card-container{
+    margin: 0 auto;
+    padding: 1rem;
+    width: 400px;
+    border: none;
+    /* background: #FFF; */
+    border-radius: 10px;
+    box-shadow: 0px 2px 2px 2px rgba(0,0,0,.1);
+}
+
+.card-container p{
+    margin-bottom: 0;
+}
+
+.regular-btn{
+    background: transparent;
+    color: #2c68c9;
+    border: solid 1px #2c68c9;
+    padding: 10px 20px;
+    border-radius: 12px;
+    margin-top: 30px;
+    cursor: pointer;
+    transition: all .3s linear;
+}
+
+.regular-btn:hover{
+    background: #2c68c9;
+    color: #fff;
+}

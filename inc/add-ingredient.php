@@ -40,7 +40,3 @@
         <input type="submit" class="btn btn-warning" value="Recipe Finished" />
     </form>
 </div>
-
-<?php
-require 'inc/footer.php';    
-?>

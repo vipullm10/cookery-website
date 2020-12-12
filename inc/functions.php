@@ -185,9 +185,9 @@ function delete_ingredient($db, $id, $ingredient){
     return true;
 }
 
-function add_recipe($db, $title, $subtitle, $cooked_on, $img_src, $url ){
-    $query = 'INSERT INTO recipe(title, subtitle, cooked_on, img_src, url)
-                VALUES(:title, :subtitle, :cooked_on, :img_src, :url)';
+function add_recipe($db, $title, $subtitle, $cooked_on, $img_src, $url,$youtubeLink){
+    $query = 'INSERT INTO recipe(title, subtitle, cooked_on, img_src,cooking_procedure,videourl)
+                VALUES(:title, :subtitle, :cooked_on, :img_src, :url,:youtubeLink)';
     
     try{
         $statement = $db->prepare($query);
@@ -196,6 +196,7 @@ function add_recipe($db, $title, $subtitle, $cooked_on, $img_src, $url ){
         $statement->bindParam(':cooked_on', $cooked_on, PDO::PARAM_STR);
         $statement->bindParam(':img_src', $img_src, PDO::PARAM_STR);
         $statement->bindParam(':url', $url, PDO::PARAM_STR);
+        $statement->bindParam(':youtubeLink',$youtubeLink,PDO::PARAM_STR);
         $statement->execute();
     }catch(Exception $e){
         return false;
@@ -227,8 +228,8 @@ function delete_recipe($db, $id){
     return true;
 }
 
-function get_date_url($db, $id){
-    $query = 'SELECT cooked_on, url
+function get_cooking_procedure($db, $id){
+    $query = 'SELECT cooking_procedure
               FROM recipe
               WHERE recipe_id = :id';
     
@@ -243,20 +244,51 @@ function get_date_url($db, $id){
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function get_URL($db, $id){
+function get_youtube_link($db, $id){
+    $query = 'SELECT videourl
+              FROM recipe
+              WHERE recipe_id = :id';
+    
     try{
-        $sql = 'SELECT url
-                FROM recipe
-                WHERE recipe_id = :id';
-        $statement = $db->prepare($sql);
-        $statement->bindParam(":id", $id, PDO::PARAM_INT);
+        $statement = $db->prepare($query);
+        $statement->bindParam(':id',$id,PDO::PARAM_INT);
         $statement->execute();
-    }catch (Exception $e){
-        echo "Could not get linked website. ".$e->getMessage();
+    }catch(Exception $e){
+        echo "Unable to retrieve date and url";
         exit;
     }
-    return $statement->fetch(PDO::FETCH_ASSOC)['url'];
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function add_comment($db,$recipe_id,$comment_text){
+    $query = 'INSERT INTO recipe_comments(recipe_id,comment_text)
+                VALUES(:recipe_id, :comment_text)';
+    
+    try{
+        $statement = $db->prepare($query);
+        $statement->bindParam(':recipe_id', $recipe_id, PDO::PARAM_STR);
+        $statement->bindParam(':comment_text', $comment_text, PDO::PARAM_STR);
+        $statement->execute();
+    }catch(Exception $e){
+        return false;
+    }
+    return true;
+}
+
+function get_comments($db,$id){
+    try{
+        $query = 'SELECT comment_text FROM recipe_comments WHERE recipe_id = :id';    
+        $statement = $db->prepare($query);
+        $statement->bindParam(':id',$id,PDO::PARAM_INT);
+        $statement->execute();
+        $comments = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }catch(Exception $e){
+        echo "Could not retrieve comments. ".$e->getMessage();
+        exit;
+    }
+    return $comments;
+}
+
 function change_website($db, $id, $url){
     try{
         $sql = 'UPDATE recipe
@@ -317,6 +349,7 @@ function random_recipe($db){
     $result = $statement->fetchAll();
     return $result;
 }
+
 
 function search_recipe($db, $search_term){
     $sql = 'SELECT distinct(recipe.title), recipe.recipe_id
